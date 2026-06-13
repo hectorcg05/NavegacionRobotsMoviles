@@ -18,8 +18,8 @@ def generate_launch_description():
         ),
         Node(
             package='potential_fields',
-            executable='apf_controller',
-            name='apf_controller',
+            executable='vpf_controller',
+            name='vpf_controller',
             output='screen'
         ),
     ])

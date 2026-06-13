@@ -9,7 +9,7 @@ from std_msgs.msg import Bool
 
 class APFController(Node):
     def __init__(self):
-        super().__init__("apf_controller")
+        super().__init__("vpf_controller")
         self.get_logger().info("Controlador APF activo")
 
         # Estado de la pose del robot

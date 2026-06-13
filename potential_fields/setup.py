@@ -23,7 +23,7 @@ setup(
         'console_scripts': [
             'differential_odometry = potential_fields.differential_odometry:main',
             'waypoint_sequencer = potential_fields.waypoint_sequencer:main',
-            'apf_controller = potential_fields.apf_controller:main',
+            'vpf_controller = potential_fields.apf_controller:main',
         ],
     },
 )

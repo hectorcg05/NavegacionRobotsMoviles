@@ -41,8 +41,7 @@ class RRT:
                 if animacion:
                     plt.plot(nodo_random.x, nodo_random.y, "^k", markersize=3) # Muestra aleatoria
                     plt.plot([nodo_cercano.x, nodo_nuevo.x], [nodo_cercano.y, nodo_nuevo.y], "-g") # Crecimiento del árbol
-                    plt.pause(0.4) # <-- Aumenta este valor para hacer la animación más lenta (ej. 0.1 o 0.5)
-                
+                    plt.pause(0.4) 
                 # Revisar si ya llegamos a la meta
                 distancia_meta = self.calcular_distancia(nodo_nuevo, self.meta)
                 if distancia_meta <= self.paso_expansion:
@@ -53,7 +52,7 @@ class RRT:
         return None
 
     def generar_nodo_aleatorio(self):
-        # A veces (prob_meta%), mandamos el punto directo a la meta para acelerar la búsqueda
+
         if random.randint(0, 100) > self.prob_meta:
             x = random.uniform(self.area_mapa[0], self.area_mapa[1])
             y = random.uniform(self.area_mapa[2], self.area_mapa[3])
@@ -79,10 +78,10 @@ class RRT:
         for (ox, oy, radio) in obstaculos:
             distancia_al_centro = math.sqrt((nodo.x - ox)**2 + (nodo.y - oy)**2)
             if distancia_al_centro <= radio + 0.5: # + 0.5 de margen de seguridad para el robot
-                # Visualizar la colisión intentada en rojo
+
                 plt.plot(nodo.x, nodo.y, "xr") 
-                return True # Hubo choque
-        return False # Camino libre
+                return True 
+        return False 
 
     def generar_trayectoria_final(self, indice_meta):
         trayectoria = [[self.meta.x, self.meta.y]]
@@ -103,14 +102,12 @@ class RRT:
     def calcular_distancia(self, nodo_a, nodo_b):
         return math.sqrt((nodo_a.x - nodo_b.x)**2 + (nodo_a.y - nodo_b.y)**2)
 
-# ==========================================
-# Script principal para correr la simulación
-# ==========================================
+
 if __name__ == '__main__':
     # Configuración del mapa
     inicio = [0, 0]
     meta = [10, 10]
-    # Lista de obstáculos: (x, y, radio)
+
     obstaculos = [
         (4, 4, 1.5), 
         (7, 7, 2), 
@@ -121,7 +118,7 @@ if __name__ == '__main__':
 
     print("Iniciando Simulación RRT...")
     
-    # Preparar la gráfica
+
     plt.figure(figsize=(8,8))
     plt.xlim(area_mapa[0], area_mapa[1])
     plt.ylim(area_mapa[2], area_mapa[3])
@@ -136,11 +133,11 @@ if __name__ == '__main__':
     plt.title("Simulación RRT (Sampling Method)")
     plt.grid(True)
 
-    # Correr el algoritmo
+
     rrt = RRT(inicio=inicio, meta=meta, obstaculos=obstaculos, area_mapa=area_mapa)
     trayectoria = rrt.planear(animacion=True)
 
-    # Dibujar trayectoria final
+
     if trayectoria:
         plt.plot([x for (x, y) in trayectoria], [y for (x, y) in trayectoria], '-r', linewidth=3, label="Trayectoria Final")
         plt.legend()

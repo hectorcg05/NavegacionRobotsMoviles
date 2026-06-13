@@ -30,7 +30,6 @@ class AStarGrid:
                             [1, -1, math.sqrt(2)], [1, 1, math.sqrt(2)]]
 
     def crear_grid(self, obstaculos):
-        # [PREGUNTA DE EXAMEN: Discretización del ambiente]
         # Creamos una matriz llena de ceros (libre)
         grid = np.zeros((self.tamaño_x, self.tamaño_y))
         
@@ -49,15 +48,13 @@ class AStarGrid:
         return grid
 
     def calcular_heuristica(self, x, y):
-        # [PREGUNTA DE EXAMEN: Uso de Heurísticas]
         # Distancia Euclidiana (línea recta) a la meta. 
-        # Esto "guía" al algoritmo para no explorar a lo menso.
         return math.sqrt((x - self.meta[0])**2 + (y - self.meta[1])**2)
 
     def planear(self):
-        # Lista Abierta (nodos por explorar) -> Usamos una Priority Queue (heapq) para eficiencia
+
         lista_abierta = []
-        # Diccionario de nodos ya visitados (lista cerrada)
+
         nodos_visitados = dict()
         
         # Crear nodo inicial
@@ -102,7 +99,6 @@ class AStarGrid:
                 if id_vecino in nodos_visitados:
                     continue
 
-                # [PREGUNTA DE EXAMEN: Funcionamiento de la Búsqueda F = G + H]
                 # g = costo acumulado de llegar al vecino
                 costo_g_nuevo = nodo_actual.costo_g + costo_paso
                 # h = heurística del vecino a la meta
@@ -128,9 +124,6 @@ class AStarGrid:
         # Invertimos para que la ruta vaya del inicio a la meta
         return [rx[::-1], ry[::-1]]
 
-# ==========================================
-# Script principal
-# ==========================================
 if __name__ == '__main__':
     # Mismos parámetros que el Sampling Method para poder compararlos
     inicio = [1.0, 4.0]
@@ -141,21 +134,20 @@ if __name__ == '__main__':
         (3, 8, 1.5), 
         (8, 2, 1)
     ]
-    # [PREGUNTA DE EXAMEN: Efecto de resolución]
-    # Si bajas este número a 0.05, el algoritmo tardará mucho más (Costo Computacional)
+
     resolucion = 0.5 
     
     astar = AStarGrid(inicio, meta, obstaculos, 12.0, 12.0, resolucion)
     trayectoria, exp_x, exp_y = astar.planear()
 
-    # --- Visualización que cumple la rúbrica ---
+
     plt.figure(figsize=(8,8))
     
     # 1. Mostrar Mapa Discretizado (Cuadriculado)
     plt.pcolor(np.arange(0, 12, resolucion), np.arange(0, 12, resolucion), 
                astar.mapa_grid.T, cmap='Greys', vmin=0, vmax=1, alpha=0.3)
     
-    # 2. Mostrar Expansión de Nodos (El "agua" del algoritmo buscando)
+    # 2. Mostrar Expansión de Nodos
     plt.plot(exp_x, exp_y, 'xc', markersize=4, label='Nodos Expandidos')
     
     plt.plot(inicio[0], inicio[1], "ob", markersize=10, label="Inicio")
@@ -168,9 +160,9 @@ if __name__ == '__main__':
         plt.legend()
         plt.title("Simulación Grid Method (A*)")
         
-        # Animación del movimiento del robot
+
         for i in range(len(trayectoria[0])):
-            plt.plot(trayectoria[0][i], trayectoria[1][i], "om", markersize=8) # Robot moviéndose
+            plt.plot(trayectoria[0][i], trayectoria[1][i], "om", markersize=8)
             plt.pause(0.4)
     
     plt.show()
