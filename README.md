@@ -4,7 +4,7 @@ Este repositorio contiene tres estrategias diferentes para que un robot móvil (
 
 El proyecto cubre dos simulaciones en computadora para analizar algoritmos de búsqueda, y la prueba física en el laboratorio usando navegación reactiva.
 
-## 📁 Estructura de las Carpetas
+##  Estructura de las Carpetas
 
 * **`Grid_method/`**: Simulación cuadriculando el mapa (Algoritmo A*).
 * **`Sampling_method/`**: Simulación buscando rutas con puntos aleatorios (Algoritmo RRT).
@@ -12,14 +12,14 @@ El proyecto cubre dos simulaciones en computadora para analizar algoritmos de b�
 
 ---
 
-## 💻 1. Grid Method (Simulación con A*)
+##  1. Grid Method (Simulación con A*)
 Este método divide el mapa en una cuadrícula (como un tablero de ajedrez) y evalúa cuál es el camino más corto paso a paso, guiándose por la distancia en línea recta hacia la meta.
 
 * **Archivos:** `grid_simulacion.py`, captura del mapa inicial y video de demostración.
 * **Ventajas/Desventajas:** Es muy preciso para encontrar la ruta ideal. Sin embargo, si el mapa es gigante o los cuadritos muy pequeños (resolución alta), la computadora se vuelve lenta porque tiene que analizar demasiadas opciones.
 * **Para correrlo:** `python grid_simulacion.py` (Requiere `numpy` y `matplotlib`).
 
-## 💻 2. Sampling Method (Simulación con RRT)
+##  2. Sampling Method (Simulación con RRT)
 En lugar de cuadricular todo el espacio, este algoritmo (Rapidly-exploring Random Tree) "lanza" puntos al azar por todo el mapa y los va conectando como si fueran las ramas de un árbol hasta chocar con la meta.
 
 * **Archivos:** `rrt_simulacion.py`, captura del mapa inicial y video de demostración.
@@ -28,7 +28,7 @@ En lugar de cuadricular todo el espacio, este algoritmo (Rapidly-exploring Rando
 
 ---
 
-## 🤖 3. Campos Potenciales Virtuales (Robot Físico con ROS2)
+##  3. Campos Potenciales Virtuales (Robot Físico con ROS2)
 Aquí pasamos al robot real. Usamos ROS2 para que el Puzzlebot llegue a varios objetivos de forma autónoma. Imagina que la meta es un imán que atrae al robot, y los obstáculos son imanes del mismo polo que lo empujan lejos.
 
 ### ¿Cómo toma decisiones el robot?
@@ -39,11 +39,11 @@ Aquí pasamos al robot real. Usamos ROS2 para que el Puzzlebot llegue a varios o
 ### Nodos de ROS2 incluidos
 1. **`differential_odometry`**: Calcula dónde está el robot (x, y, ángulo) contando las vueltas de las llantas (encoders físicos).
 2. **`waypoint_sequencer`**: Le va pasando al controlador los puntos a los que tiene que llegar, uno por uno, esperando a que llegue al primero para soltar el segundo.
-3. **`apf_controller`**: Es el cerebro principal. Suscribe la posición actual y la meta, calcula las fuerzas (atracción + repulsión) y le manda las instrucciones de velocidad al robot (`/cmd_vel`).
+3. **`vpf_controller`**: Es el cerebro principal. Suscribe la posición actual y la meta, calcula las fuerzas (atracción + repulsión) y le manda las instrucciones de velocidad al robot (`/cmd_vel`).
 
 ### Diagrama de comunicación
 ```text
-[Encoders] -> /VelocityEnc -> differential_odometry -> /odom -> apf_controller -> /cmd_vel -> [Ruedas]
+[Encoders] -> /VelocityEnc -> differential_odometry -> /odom -> vpf_controller -> /cmd_vel -> [Ruedas]
                                                                       ^
 [Lista de puntos] ----------> waypoint_sequencer -> /next_point ------|
 ```
